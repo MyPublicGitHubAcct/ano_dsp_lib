@@ -8,8 +8,7 @@ fn main() {
     let mut output = [0.0; 4];
     gc.process_block(&input, &mut output);
 
-    println!("Output with gain ramp:");
-    for (i, &sample) in output.iter().enumerate() {
-        println!("Sample {}: {}", i, sample);
+    for (i, &y) in output.iter().enumerate() {
+        println!("Sample {}: {}", i, y);
     }
 }

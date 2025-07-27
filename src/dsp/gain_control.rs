@@ -1,4 +1,5 @@
-/// Gain control with linear interpolation ramp.
+#![allow(clippy::float_cmp)]
+
 pub struct GainControl {
     current_gain: f64,
     target_gain: f64,
@@ -7,7 +8,6 @@ pub struct GainControl {
 }
 
 impl GainControl {
-    /// Create a new GainControl with initial gain.
     pub fn new(initial_gain: f64) -> Self {
         Self {
             current_gain: initial_gain,
@@ -17,7 +17,6 @@ impl GainControl {
         }
     }
 
-    /// Set target gain with ramp length in samples.
     pub fn set_gain(&mut self, new_gain: f64, ramp_length: usize) {
         assert!(ramp_length >= 1, "ramp_length must be >= 1");
         self.target_gain = new_gain;
@@ -32,7 +31,6 @@ impl GainControl {
         }
     }
 
-    /// Process single sample with interpolated gain.
     pub fn process_sample(&mut self, x: f64) -> f64 {
         if self.samples_left > 0 {
             self.current_gain += self.step;
@@ -45,7 +43,6 @@ impl GainControl {
         x * self.current_gain
     }
 
-    /// Process block of samples.
     pub fn process_block(&mut self, input: &[f64], output: &mut [f64]) {
         assert_eq!(input.len(), output.len());
         for (i, &sample) in input.iter().enumerate() {
@@ -53,12 +50,10 @@ impl GainControl {
         }
     }
 
-    /// Current gain (for tests/inspection).
     pub fn current_gain(&self) -> f64 {
         self.current_gain
     }
 
-    /// Samples left in ramp (for tests).
     pub fn samples_left(&self) -> usize {
         self.samples_left
     }
@@ -66,7 +61,10 @@ impl GainControl {
 
 #[cfg(test)]
 mod tests {
+    extern crate std;
+
     use super::*;
+    use std::vec;
 
     #[test]
     fn test_initial_gain() {
