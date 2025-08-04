@@ -50,11 +50,11 @@ impl GainControl {
         }
     }
 
-    pub fn current_gain(&self) -> f64 {
+    pub fn set_current_gain(&self) -> f64 {
         self.current_gain
     }
 
-    pub fn samples_left(&self) -> usize {
+    pub fn set_samples_left(&self) -> usize {
         self.samples_left
     }
 }
@@ -79,8 +79,8 @@ mod tests {
         gc.set_gain(2.0, 1);
         let y = gc.process_sample(1.0);
         assert!((y - 2.0).abs() < 1e-12);
-        assert!((gc.current_gain() - 2.0).abs() < 1e-12);
-        assert_eq!(gc.samples_left(), 0);
+        assert!((gc.set_current_gain() - 2.0).abs() < 1e-12);
+        assert_eq!(gc.set_samples_left(), 0);
     }
 
     #[test]
@@ -96,8 +96,8 @@ mod tests {
             assert!((y - expected_gain).abs() < 1e-12);
         }
 
-        assert!((gc.current_gain() - 2.0).abs() < 1e-12);
-        assert_eq!(gc.samples_left(), 0);
+        assert!((gc.set_current_gain() - 2.0).abs() < 1e-12);
+        assert_eq!(gc.set_samples_left(), 0);
     }
 
     #[test]
@@ -123,8 +123,8 @@ mod tests {
         for (o, &e) in output.iter().zip(&expected) {
             assert!((o - e).abs() < 1e-12);
         }
-        assert!((gc.current_gain() - 2.0).abs() < 1e-12);
-        assert_eq!(gc.samples_left(), 0);
+        assert!((gc.set_current_gain() - 2.0).abs() < 1e-12);
+        assert_eq!(gc.set_samples_left(), 0);
     }
 
     #[test]
@@ -155,7 +155,7 @@ mod tests {
             assert!((o - e).abs() < 1e-12);
         }
 
-        assert!((gc.current_gain() - 3.0).abs() < 1e-12);
-        assert_eq!(gc.samples_left(), 0);
+        assert!((gc.set_current_gain() - 3.0).abs() < 1e-12);
+        assert_eq!(gc.set_samples_left(), 0);
     }
 }
